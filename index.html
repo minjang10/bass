@@ -545,6 +545,20 @@
         let leaderboardData = [];
         let fullTableData = [];
 
+        // Model size mapping
+        const modelSizes = {
+            "Qwen3-Omni": "30B",
+            "Step-Audio-R1": "33B",
+            "Music Flamingo": "8B",
+            "R1-AQA": "8.2B",
+            "Gemma 3n": "5B",
+            "Voxtral-Small-24B": "24B",
+            "SALMONN-7B": "7B",
+            "Phi4-mm-instruct": "5.5B",
+            "Kimi Audio": "7B",
+            "Mellow": "167M"
+        };
+
         // 1. FIRST - Define renderLeaderboard
         function renderLeaderboard() {
             const tbody = document.getElementById('leaderboardBody');
@@ -652,7 +666,7 @@
                         
                         const rowData = {
                             model: modelName,
-                            size: "Unknown"
+                            size: modelSizes[modelName] || '--'
                         };
                         
                         headers.slice(1).forEach((header, idx) => {
