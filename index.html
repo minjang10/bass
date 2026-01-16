@@ -438,7 +438,7 @@
                 <h2>Model Performance — Leaderboard</h2>
                 <p style="margin-bottom: 1rem;">Sorted by overall average (desc)</p>
                 <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-light);">
-                    Medals: 🥇 🥈 🥉 for top 3 (excluding Human/Random baselines).
+                    Medals: 🥇 🥈 🥉 for top 3.
                 </p>
 
                 <div class="table-controls">
@@ -548,7 +548,7 @@
         // Load CSV data
         async function loadCSVData() {
             try {
-                const response = await fetch('data/unnormalized_results.csv');
+                const response = await fetch('data/normalized_results.csv');
                 const csvText = await response.text();
                 
                 // Parse CSV
