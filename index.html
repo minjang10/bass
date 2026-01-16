@@ -394,7 +394,7 @@
                 <li><a href="#results">Leaderboard</a></li>
                 <li><a href="#full-table">Full Table</a></li>
                 <li><a href="#analysis">Analysis</a></li>
-                <li><a href="#bibtex">BibTeX</a></li>
+                <!-- <li><a href="#bibtex">BibTeX</a></li> -->
             </ul>
         </div>
     </nav>
@@ -512,7 +512,7 @@
                 </p>
             </section>
 
-            <section id="bibtex">
+            <!-- <section id="bibtex">
                 <h2>BibTeX</h2>
                 <div class="code-block">
                     <button class="copy-btn" onclick="copyBibTeX()">📋 Copy BibTeX</button>
@@ -531,7 +531,7 @@
                     <li>🔗 Dataset: <a href="https://huggingface.co/datasets/gamma-lab-umd/MMAU-Pro" style="color: var(--primary-color);">Landing page</a></li>
                     <li>✉️ Corresponding author: sonalkum@umd.edu</li>
                 </ul>
-            </section>
+            </section> -->
         </div>
     </main>
 
@@ -647,16 +647,16 @@
             }).join('');
         }
 
-        function copyBibTeX() {
-            const bibtex = document.getElementById('bibtexCode').textContent;
-            navigator.clipboard.writeText(bibtex).then(() => {
-                const btn = document.querySelector('.copy-btn');
-                btn.textContent = '✓ Copied!';
-                setTimeout(() => {
-                    btn.textContent = '📋 Copy BibTeX';
-                }, 2000);
-            });
-        }
+        // function copyBibTeX() {
+        //    const bibtex = document.getElementById('bibtexCode').textContent;
+        //    navigator.clipboard.writeText(bibtex).then(() => {
+        //        const btn = document.querySelector('.copy-btn');
+        //        btn.textContent = '✓ Copied!';
+        //        setTimeout(() => {
+        //            btn.textContent = '📋 Copy BibTeX';
+        //        }, 2000);
+        //    });
+        // }
 
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
