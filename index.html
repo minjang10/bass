@@ -638,7 +638,7 @@
         // 4. FOURTH - Define loadCSVData (calls updateLeaderboard)
         async function loadCSVData() {
             try {
-                const response = await fetch('data/normalized_scores.csv');
+                const response = await fetch('data/normalized_results.csv');
                 const csvText = await response.text();
                 
                 const rows = csvText.split('\n').filter(row => row.trim());
