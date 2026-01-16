@@ -455,10 +455,10 @@
                         Sort by
                         <select id="sortBy">
                             <option value="overall" selected>Overall</option>
-                            <option value="structural-segmentation">Structural Segmentation</option>
                             <option value="structural-lyrics-transcription">Structural Lyrics Transcription</option>
-                            <option value="musicological-analysis">Musicological Analysis</option>
+                            <option value="structural-segmentation">Structural Segmentation</option>
                             <option value="artist-collaboration">Artist Collaboration</option>
+                            <option value="musicological-analysis">Musicological Analysis</option>
                         </select>
                     </label>
                 </div>
@@ -479,7 +479,6 @@
 
             <section id="full-table">
                 <h2>Full Results Table</h2>
-                <p style="margin-bottom: 1rem; color: var(--text-light);">Data source: results.json</p>
 
                 <div class="table-wrapper">
                     <table id="fullResultsTable">
@@ -576,22 +575,58 @@
         // 2. SECOND - Define renderFullTable
         function renderFullTable() {
             const tbody = document.getElementById('fullTableBody');
-            const thead = document.querySelector('#fullResultsTable thead tr');
+            const thead = document.querySelector('#fullResultsTable thead');
             
-            // Add these checks
-            if (!tbody || !thead || !window.headers || !leaderboardData) {
+            if (!tbody || !thead || !window.headers) {
+                return;
+            }
+
+            if (!leaderboardData || leaderboardData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="15" style="text-align: center;">Loading data...</td></tr>';
                 return;
             }
             
+            // Define task categories
+            const categories = {
+                'Structural Lyrics Transcription': ['Full Structural Lyrics Transcription', 'Section Structural Lyrics Transcription'],
+                'Structural Segmentation': ['Full Structural Segmentation', 'Section Structural Segmentation'],
+                'Artist Collaboration': ['Artist Counting', 'Artist Duration', 'Artist Localization', 'Artist Attribution'],
+                'Musicological Analysis': ['Single-Gene Detection', 'Pairwise-Gene Detection', 'Gene Dominance Ranking', 'Song-Level Gene Detection'],
+            };
+            
+            // Get all task headers (excluding Average)
             const displayHeaders = window.headers.slice(1).filter(h => h !== 'Average');
             
+            // Build category header row
+            let categoryHeaderHTML = '<th rowspan="2">#</th><th rowspan="2">Model</th>';
+            let taskHeaderHTML = '';
+            
+            Object.entries(categories).forEach(([categoryName, tasks]) => {
+                const tasksInData = tasks.filter(t => displayHeaders.includes(t));
+                if (tasksInData.length > 0) {
+                    categoryHeaderHTML += `<th colspan="${tasksInData.length}" style="text-align: center; background: #e5e7eb;">${categoryName}</th>`;
+                    tasksInData.forEach(task => {
+                        taskHeaderHTML += `<th>${task}</th>`;
+                    });
+                }
+            });
+            
+            // Add remaining headers that don't belong to categories
+            const categorizedTasks = Object.values(categories).flat();
+            const uncategorizedHeaders = displayHeaders.filter(h => !categorizedTasks.includes(h));
+            uncategorizedHeaders.forEach(h => {
+                categoryHeaderHTML += `<th rowspan="2">${h}</th>`;
+            });
+            
+            categoryHeaderHTML += '<th rowspan="2">Average</th>';
+            
+            // Update table header with two rows
             thead.innerHTML = `
-                <th>#</th>
-                <th>Model</th>
-                ${displayHeaders.map(h => `<th>${h}</th>`).join('')}
-                <th>Average</th>
+                <tr>${categoryHeaderHTML}</tr>
+                <tr>${taskHeaderHTML}</tr>
             `;
             
+            // Build table body
             tbody.innerHTML = leaderboardData.map((item, idx) => {
                 const categoryScores = displayHeaders.map(h => {
                     const value = item[h];
